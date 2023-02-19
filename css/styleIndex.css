@@ -1,0 +1,54 @@
+*{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: rgb(82, 14, 146);
+}
+
+body{
+    background-color: rgb(190, 225, 197);
+}
+
+h1{
+    padding-top: 5px;
+    text-align: center;
+}
+
+form{
+    padding: 1em;
+}
+
+div input{
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+header{
+    background-image: url("../img/cover_image.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    min-height: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    background-color: bisque;
+    font-size: 1.5em;
+}
+
+#glavniDiv{
+    display: flex;
+	flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+
+td, th{
+    border: 4px solid rgb(217, 131, 131);
+    padding: 6px;
+    text-align: center;
+}
+
+table{
+    border-collapse: collapse;
+    margin: 5px;
+    margin-bottom: 20px;
+}
