@@ -10,30 +10,29 @@ if (isset($_POST["login"])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
     
-    $login = ControllerMain::login($email, $password, $conn);
+    $result = ControllerMain::login($email, $password, $conn);
     
-    if ($login->num_rows == 1) {
-        $_SESSION['logovani_korisnik'] = $login->fetch_object();
-        exit();
-    } else {
-        echo "Korisnik ne postoji.";
-        exit();
-    }       
-            //$row = $_SESSION['logovani_korisnik']->fetch_assoc();
-            if ($_SESSION['logovani_korisnik']['type'] == "employee") {
+    if ($result->num_rows == 1) {
+        
+        $row = $result->fetch_assoc();
+        $db_type = $row['type'];
+            if ($db_type == "employee") {
                 header("Location:view/eView.php");
                 exit();
-            } elseif ($_SESSION['logovani_korisnik']['type'] == "client") {
+            } elseif ($db_type == "client") {
                 header("Location:view/cView.php");
                 exit();
-            } elseif ($_SESSION['logovani_korisnik']['type'] == "admin") {
+            } elseif ($db_type == "admin") {
+                echo "Pozdrav, admine";
                 header("Location:view/aView.php");
                 exit();
             }
-                       
+    } else {
+        echo "Korisnik ne postoji.";
+        exit();
+    }               
         
-        
-        }
+}
         
 
 
