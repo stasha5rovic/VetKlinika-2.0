@@ -4,7 +4,8 @@ include_once "../data.php";
 include_once "header.php";
 include "../controller/aController.php";
 
-$korisnici = $_SESSION["korisnici"];
+
+$result = aController::getAllUsers($conn);
 
 ?>
 
@@ -34,17 +35,17 @@ $korisnici = $_SESSION["korisnici"];
             </thead>
             <tbody>
                 <?php
-                    foreach($korisnici as $kor):
+                    while ($row = $result->fetch_assoc()) {
                 ?>
                 <tr>
-                    <td><?php echo $kor->getId();  ?></td>
-                    <td><?php echo $kor->getName(); ?></td>
-                    <td><?php echo $kor->getEmail(); ?></td>
-                    <td><?php echo $kor->getPassword(); ?></td>
-                    <td><?php echo $kor->getPhone();  ?></td>
-                    <td><?php echo $kor->getType()  ?></td>
+                    <td><?php echo $row['id'];  ?></td>
+                    <td><?php echo $row['name']; ?></td>
+                    <td><?php echo $row['email']; ?></td>
+                    <td><?php echo $row['password']; ?></td>
+                    <td><?php echo $row['phone'];  ?></td>
+                    <td><?php echo $row['type']; ?></td>
                 </tr>
-                <?php endforeach; ?>
+                <?php } ?>
             </tbody>
         </table>
     </div>
@@ -111,8 +112,14 @@ $korisnici = $_SESSION["korisnici"];
             <?php
 
             if (isset($_POST["delete"])) {
-                $deleteId = $_POST["deleteId"];
-                aController::deleteUser($deleteId);
+                $id = $_POST["deleteId"];
+                $result = aController::deleteUser($id, $conn);
+                $num_rows = $conn->affected_rows;
+                if ($num_rows == 1) {
+                    echo "Korisnik je obrisan.";
+                } else {
+                    echo "Doslo je do greske, pokusajte ponovo.";
+                }
             }
             ?>
         </div>

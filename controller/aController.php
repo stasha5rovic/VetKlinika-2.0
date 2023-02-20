@@ -2,9 +2,18 @@
 
 
 
-$korisnici = $_SESSION["korisnici"];
+
 
 class aController{
+
+
+
+
+    public static function getAllUsers(mysqli $conn)
+    {
+        $query = "SELECT * FROM user;";
+        return $conn->query($query);
+    }
 
     public static function addUser($id ,$name, $email, $password, $phone, $type){
         $korisnik = array(
@@ -15,24 +24,16 @@ class aController{
             "phone" => $phone,
             "type" => $type);
             $_SESSION["korisnici"][] = $korisnik;
-            //array_push($_SESSION["korisnici"][], $korisnik);
-
-            //provera
-            // foreach($_SESSION["korisnici"] as $kor){
-            //     print_r($kor);
-            // }
+         
 
 
     }            
     
 
-    public static function deleteUser($deleteId){
-
-        foreach($_SESSION["korisnici"] as $kor){
-            if($kor->getId() == $deleteId){
-                unset($kor);
-            }
-        }
+    public static function deleteUser($id, mysqli $conn){
+        $query = "DELETE FROM user 
+                    WHERE id=$id";
+        return $conn->query($query);
 
     }
 
