@@ -2,30 +2,13 @@
 
 include_once "../data.php";
 include_once "header.php";
+include_once "../controller/clController.php";
 
 echo "<br>";
 
-$visits = $_SESSION["posete"];
+$id = $_SESSION['logovani_korisnik']['id'];
 
-$myVisits = [];
-
-// foreach($visits as $vis){
-//     global $user;
-//     if($vis->getClientID() == $user->getId()){
-//         array_push($myVisits, $vis);
-//     }
-// }
-
-$korisnici = $_SESSION["korisnici"];
-
-for ($i = 0; $i < count($visits); $i++){
-    for ($j = 0; $j < count($korisnici); $j++){
-        if($visits[$i]->getClientID() == $korisnici[$j]->getId()){
-                    array_push($myVisits, $visits[$i]);
-                }
-    }
-}
-
+$result = clController::getMyVisits($id, $conn);
 
 ?>
 
@@ -51,14 +34,14 @@ for ($i = 0; $i < count($visits); $i++){
             <tbody>
                 <?php
 
-                    foreach($myVisits as $mv):
+                while ($row = $result->fetch_assoc()) {
                 ?>
                 <tr>
-                    <td><?php echo $mv->getDate();  ?></td>
-                    <td><?php echo $mv->getDiagnosis(); ?></td>
-                    <td><?php echo $mv->getMeds(); ?></td>
+                    <td><?php echo $row['date'];  ?></td>
+                    <td><?php echo $row['diagnosis']; ?></td>
+                    <td><?php echo $row['meds']; ?></td>
                 </tr>
-                <?php endforeach; ?>
+                <?php } ?>
             </tbody>
         </table>
         <br>

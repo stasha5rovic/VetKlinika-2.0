@@ -1,6 +1,6 @@
 <?php
 
-abstract class User{
+class User{
     protected int $id;
     protected string $name;
     protected string $email;
@@ -79,6 +79,18 @@ abstract class User{
     public function setType(string $type)
     {
         $this->type = $type;
+    }
+
+
+    public function returnUser()
+    {
+        $user = array();
+        $user['id'] = $this->getId();
+        $user['name'] = $this->getName();
+        $user['email'] = $this->getEmail();
+        $user['phone'] = $this->getPhone();
+        $user['type'] = $this->getType();
+        return $user;
     }
 }
 

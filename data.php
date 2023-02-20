@@ -14,8 +14,8 @@ include "database/dbbroker.php";
 
 
 $c1 = new Client(3, "Jadzia Dax", "dax@hotmail.com", "dax123", "+38161222964", "client");
-$e1 = new Employee(1, "Jean-Luc Picard", "picard@gmail.com", "picard123", "+445215878", "employee", "doctor");
-$a1 = new Admin(2, "Ellen Ripley", "ripley@yahoo.com", "ripley123", "+38160251547", "admin");
+$e1 = new Employee(2, "Jean-Luc Picard", "picard@gmail.com", "picard123", "+445215878", "employee", "doctor");
+$a1 = new Admin(1, "Ellen Ripley", "ripley@yahoo.com", "ripley123", "+38160251547", "admin");
 $c2 = new Client(4, "Kira Nerys", "kira@gmail.com", "kira123", "+38137854996", "client");
 
 $pet1 = new Animal(1, "mačka", "Spot", "19-07-2019", 4.2);

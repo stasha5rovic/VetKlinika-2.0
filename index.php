@@ -15,7 +15,17 @@ if (isset($_POST["login"])) {
     if ($result->num_rows == 1) {
         
         $row = $result->fetch_assoc();
+        $db_id = $row['id'];
+        $db_name = $row['name'];
+        $db_email = $row['email'];
+        $db_password = $row['password'];
+        $db_phone = $row['phone'];
         $db_type = $row['type'];
+        
+        $user = new User($db_id, $db_name,$db_email, $db_password, $db_phone, $db_type);
+        $_SESSION['logovani_korisnik'] = $user->returnUser();
+
+        
             if ($db_type == "employee") {
                 header("Location:view/eView.php");
                 exit();
@@ -33,8 +43,6 @@ if (isset($_POST["login"])) {
     }               
         
 }
-        
-
 
 ?>
 
