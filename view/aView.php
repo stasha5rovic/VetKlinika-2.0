@@ -55,7 +55,7 @@ $result = aController::getAllUsers($conn);
             <div>
                 <form method="post">
                     <div>
-                        <label for="id">ID korisnika</label>
+                        <label for="name">ID</label>
                         <input type="text" id="id" name="id" required>
                     </div>
                     <div>
@@ -85,15 +85,23 @@ $result = aController::getAllUsers($conn);
             <br><br>
             <?php
 
-            if (isset($_POST["dodaj"])) {
-                $id = $_POST["id"];
+            if (isset($_POST["dodaj"])) { 
+                $id = $_POST["id"];                 
                 $name = $_POST["name"];
                 $email = $_POST["email"];
                 $password = $_POST["password"];
                 $phone = $_POST["phone"];
                 $type = $_POST["type"];
-                aController::addUser($id ,$name, $email, $password, $phone, $type);
-            }
+                $result = aController::addUser($id, $name, $email, $password, $phone, $type, $conn);
+                $num_rows = $conn->affected_rows;
+                if ($num_rows === 1) {
+                    echo "Korisnik je dodat.";
+                } else {
+                    echo "Došlo je do greške, pokušajte ponovo.";
+                }
+            }      
+             
+                
             ?>
         </div>
 
@@ -115,10 +123,10 @@ $result = aController::getAllUsers($conn);
                 $id = $_POST["deleteId"];
                 $result = aController::deleteUser($id, $conn);
                 $num_rows = $conn->affected_rows;
-                if ($num_rows == 1) {
+                if ($num_rows === 1) {
                     echo "Korisnik je obrisan.";
                 } else {
-                    echo "Doslo je do greske, pokusajte ponovo.";
+                    echo "Došlo je do greške, pokušajte ponovo.";
                 }
             }
             ?>
