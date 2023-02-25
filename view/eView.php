@@ -88,8 +88,7 @@ include_once "../model/visit.php";
         if (isset($_POST["schedule"])) {
             $userID = $_POST["userID"];
             $date = date('d-m-Y', strtotime($_POST["scheduleDate"]));
-            eController::scheduleNextVisit($date, $userID);
-            echo "Kontrola zakazana za: " . $date;
+            eController::scheduleNextVisit($date, $userID, $conn);
         }
 
         ?>
@@ -128,11 +127,11 @@ include_once "../model/visit.php";
             if (isset($_POST["zapamti"])) {
                 $idA = $_POST["idA"];
                 $idC = $_POST["idC"];
-                $datum = date('d-m-Y', strtotime($_POST["datum"]));
+                $datum = $_POST["datum"];
                 $diagnosis = $_POST["diagnosis"];
                 $meds = $_POST["meds"];
                 
-                eController::addVisit($idA ,$idC, $datum, $diagnosis, $meds);
+                $result = eController::addVisit($idA ,$idC, $datum, $diagnosis, $meds, $conn);
             }
             ?>
         </div>

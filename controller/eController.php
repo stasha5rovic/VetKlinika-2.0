@@ -44,34 +44,34 @@ class eController{
 
 }
 
-    public static function scheduleNextVisit($date, $userID){
+    public static function scheduleNextVisit($date, $userID, mysqli $conn){
         
-            foreach ($_SESSION["korisnici"] as $kor) {
-                if ($kor->getiD() == $userID) {
-                    $to = $kor->getEmail();
-                }
-            }
+            $query = "SELECT email FROM user WHERE id=$userID;";
+
+            $result = $conn->query($query);
+            $row = $result->fetch_assoc();
+
+            $to = $row['email'];
             $subject = "Kontrola";
             $message = "Kontrola zdravlja vašeg ljubimca je zakazana za " . $date . ".";
 
-            $result = mail($to, $subject, $message);
-            if($result == true){
-                echo "Mejl je uspešno poslat klijentu.";
-            } else {
-                "Mejl nije poslat.";
-            }
+            $res = mail($to, $subject, $message);
+            
+                echo "Kontrola zakazana za: " . $date . ", mejl je uspešno poslat na adresu: " . $to;
+            
     }
 
-    public static function addVisit($idA, $idC, $datum, $diagnosis, $meds){
-            $poseta = array(
-            "animalID" => $idA,
-            "clientID" => $idC,
-            "date" => $datum,
-            "diagnosis" => $diagnosis,
-            "meds" => $meds,
-            );
-
-            $_SESSION["posete"][] = $poseta;
+    public static function addVisit($idA, $idC, $datum, $diagnosis, $meds, mysqli $conn){      
+        
+            $animalid = $idA;
+            $clientid = $idC;
+            $date = $datum;
+            $diagnosis = $diagnosis;
+            $meds = $meds;
+            
+            $query = "INSERT INTO visit (animalid, clientid, date, diagnosis, meds) 
+                        VALUES ($animalid, $clientid, '$date', '$diagnosis','$meds');";
+            return $conn->query($query); 
     }
 
 }
