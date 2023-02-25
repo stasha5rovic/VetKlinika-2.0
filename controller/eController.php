@@ -1,28 +1,23 @@
 <?php
 include_once "../model/animal.php";
 
-$visits = $_SESSION["posete"];
-$korisnici = $_SESSION["korisnici"];
-$pacijenti = $_SESSION["pacijenti"];
 
 class eController{
 
-    public static function findByClient($clientName){
-        foreach ($_SESSION["korisnici"] as $korisnik) {
-            if ($korisnik->getName() == $clientName){
-                echo "ID: " . $korisnik->getId() . " / " . "Ime: " . $korisnik->getName() . " / " . 
-                "Email: " . $korisnik->getEmail() . " / " . "Telefon: ". $korisnik->getPhone();
-                echo "<br>";
-                echo "Posete ovog klijenta:  <br>";
-                foreach ($_SESSION["posete"] as $pos){
-                    if ($korisnik->getId() == $pos->getClientID()){
-                        echo "Datum: " .$pos->getDate() . " / " . "Dijagnoza: ". $pos->getDiagnosis() . " / " . "Terapija: " . $pos->getMeds() . "<br>";
-                    }
-                }
-            }
-    
-        }
+    public static function findByClient($clientName, mysqli $conn){
 
+                $query = "SELECT * FROM user WHERE name='$clientName';";
+                return $conn->query($query);
+
+    }
+
+    public static function ClientVisits($clientName, mysqli $conn){
+        $query = "SELECT id FROM user WHERE name='$clientName';";
+        $res =$conn->query($query);
+        $row = $res->fetch_assoc();
+        $clientid = $row['id'];
+        $query2 = "SELECT * FROM visit WHERE clientid=$clientid;";
+        return $conn->query($query2);
     }
 
     public static function findByPet($petName){
@@ -73,6 +68,8 @@ class eController{
                         VALUES ($animalid, $clientid, '$date', '$diagnosis','$meds');";
             return $conn->query($query); 
     }
+
+    // dodati izmenu pacijentovih podataka
 
 }
 

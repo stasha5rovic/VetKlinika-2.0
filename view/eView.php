@@ -40,8 +40,15 @@ include_once "../model/visit.php";
 
             if (isset($_POST["nadjiKl"])) {
                 $clientName = $_POST["klijent"];
-                eController::findByClient($clientName);
-            }
+                $result = eController::findByClient($clientName, $conn);
+                $row = $result->fetch_assoc();
+                echo "Klijent ". $row["name"]. " sa ID-jem: ". $row["id"]. 
+                " posetio je kliniku: ". "<br>";
+                $result2 = $result = eController::ClientVisits($clientName, $conn);
+                    while ($row2 = $result2->fetch_assoc()) {
+                     echo $row2['date']." / " . $row2['diagnosis']." / " . $row2['meds']. "<br>";
+                    }
+                }
             ?>
         </div>
 
