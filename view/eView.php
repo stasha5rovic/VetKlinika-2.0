@@ -68,7 +68,15 @@ include_once "../model/visit.php";
             <?php
             if (isset($_POST["nadjiPa"])) {
                 $petName = $_POST["pacijent"];
-                eController::findByPet($petName);
+                
+                $result = eController::findByPet($petName, $conn);
+                $row = $result->fetch_assoc();
+                echo "Pacijent ". $row["animalName"]. " sa ID-jem: ". $row["id"]. 
+                " posetio je kliniku: ". "<br>";
+                $result2 = $result = eController::petVisits($petName, $conn);
+                    while ($row2 = $result2->fetch_assoc()) {
+                     echo $row2['date']." / " . $row2['diagnosis']." / " . $row2['meds']. "<br>";
+                    }
             }
 
             ?>
@@ -142,6 +150,29 @@ include_once "../model/visit.php";
             }
             ?>
         </div>
+
+        
+            <h3>Izmena podataka pacijenta:</h3>
+            <div>
+                <form method="post">
+                    <div>
+                        <label for="id">ID</label>
+                        <input type="text" id="id" name="id" required>
+                    </div>
+                    <div>
+                        <label for="weight">Težina</label>
+                        <input type="text" id="weight" name="weight" required>
+                    </div>
+                    <input type="submit" value="Izmeni" id="update" name="update">
+            </div>
+            <?php
+            if (isset($_POST["update"])) {
+                $id = $_POST["id"];
+                $weight = $_POST["weight"];
+                eController::editPatientInfo($id, $weight, $conn);
+            }        
+
+            ?>
     </div>
 
 </body>

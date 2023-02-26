@@ -55,7 +55,7 @@ $result = aController::getAllUsers($conn);
             <div>
                 <form method="post">
                     <div>
-                        <label for="name">ID</label>
+                        <label for="id">ID</label>
                         <input type="text" id="id" name="id" required>
                     </div>
                     <div>
@@ -131,6 +131,58 @@ $result = aController::getAllUsers($conn);
             }
             ?>
         </div>
+
+        <div>
+            <h3>Izmena podataka korisnika:</h3>
+            <br>
+            <h5><i>(Unesite samo ID i polja koja želite da izmenite)</i></h5>
+            <div>
+                <form method="post">
+                    <div>
+                        <label for="id">ID</label>
+                        <input type="text" id="id" name="id" required>
+                    </div>
+                    <div>
+                        <label for="name">Ime i prezime</label>
+                        <input type="text" id="name" name="name">
+                    </div>
+                    <div>
+                        <label for="email">Email adresa</label>
+                        <input type="text" id="email" name="email">
+                    </div>
+                    <div>
+                        <label for="password">Lozinka</label>
+                        <input type="text" id="password" name="password">
+                    </div>
+                    <div>
+                        <label for="phone">Broj telefona</label>
+                        <input type="text" id="phone" name="phone">
+                    </div>
+                    <div>
+                        <label for="type">Tip korisnika</label>
+                        <input type="text" id="type" name="type">
+                    </div>
+                    <br>
+                <input type="submit" value="Izmeni" id="update" name="update">
+            </div>
+            <?php
+
+            if (isset($_POST["update"])) {
+                $id = $_POST["id"];                 
+                $name = $_POST["name"];
+                $email = $_POST["email"];
+                $password = $_POST["password"];
+                $phone = $_POST["phone"];
+                $type = $_POST["type"];
+                $result = aController::editUser($id, $name, $email, $password, $phone, $type, $conn);
+                $num_rows = $conn->affected_rows;
+                if ($num_rows === 1) {
+                    return "Podaci su izmenjeni.";
+                } else {
+                    return "Došlo je do greške, pokušajte ponovo.";
+                }
+            }
+            ?>
         </div>
 
 

@@ -20,24 +20,20 @@ class eController{
         return $conn->query($query2);
     }
 
-    public static function findByPet($petName){
-        foreach($_SESSION["pacijenti"] as $pacijent){
-            if($pacijent->getAnimalName() == $petName){
-                echo "ID: " . $pacijent->getId() . " / " . "Ime: " . $pacijent->getAnimalName() . " / " .
-                "Vrsta: " . $pacijent->getAnimalType() . " / " . "Datum rođenja: " . $pacijent->getDob() . " / " .
-                 "Težina: " . $pacijent->getWeight() . " kg";
-                 echo "<br>";
-                echo "Posete ovog pacijenta:  <br>";
-                foreach ($_SESSION["posete"] as $pos){
-                    if ($pacijent->getId() == $pos->getAnimalID()){
-                        echo "Datum: " .$pos->getDate() . " / " . "Dijagnoza: ". $pos->getDiagnosis() . " / " . "Terapija: " . $pos->getMeds() . "<br>";
-            }
-        }
+    public static function findByPet($petName, mysqli $conn){
+        $query = "SELECT * FROM animal WHERE animalName='$petName';";
+        return $conn->query($query);
     }
-}
 
 
-}
+    public static function petVisits($petName, $conn){
+        $query = "SELECT id FROM animal WHERE animalName='$petName';";
+        $res =$conn->query($query);
+        $row = $res->fetch_assoc();
+        $animalid = $row['id'];
+        $query2 = "SELECT * FROM visit WHERE animalid=$animalid;";
+        return $conn->query($query2);
+    }
 
     public static function scheduleNextVisit($date, $userID, mysqli $conn){
         
@@ -69,7 +65,10 @@ class eController{
             return $conn->query($query); 
     }
 
-    // dodati izmenu pacijentovih podataka
+    public static function editPatientInfo($id, $weight, mysqli $conn){
+        $query = "UPDATE animal SET weight=$weight WHERE id=$id;";
+        return $conn->query($query); 
+    }
 
 }
 

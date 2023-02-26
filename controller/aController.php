@@ -37,8 +37,42 @@ class aController{
 
     }
 
-    public static function editUser(){
+    public static function editUser($id, $name, $email, $password, $phone, $type, $conn){
+        $query1 = "SELECT * FROM user WHERE id=$id;";
+        $res1 = $conn->query($query1);
+        $row = $res1->fetch_assoc();
 
+        if($name === "") {
+            $updateName = $row['name'];
+        } else {
+            $updateName = $name;
+        }
+        if($email === "") {
+            $updateEmail = $row['email'];
+        }else {
+            $updateEmail = $email;
+        }
+        if($password === "") {
+            $updatePassword = $row['password'];
+        }else {
+            $updatePassword = $password;
+        }
+        if($phone === "") {
+            $updatePhone = $row['phone'];
+        }else {
+            $updatePhone = $phone;
+        }
+        if($type === "") {
+            $updateType = $row['type'];
+        }else {
+            $updateType = $type;
+        }
+
+        $query2 = "UPDATE user SET name='$updateName', email='$updateEmail',
+                     password='$updatePassword', phone='$updatePhone', type='$updateType'
+                    WHERE id=$id;";
+        return $conn->query($query2);
+        
     }
 
 
